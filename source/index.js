@@ -44,7 +44,7 @@ client.on('message', message => {
 //Bot responds to hello and goodbye messages.
 client.on('message', (message) => {
   if (message.author.bot) return;
-  console.log(`${message.author.tag}: ${message.content}`);
+  // console.log(`${message.author.tag}: ${message.content}`);
   if (message.content === 'hello') {
     message.reply('hey there!')
   } else if (message.content === 'goodbye') {
@@ -59,10 +59,21 @@ client.on('message', (message) => {
 	if (message.author.bot) return;
 	console.log(ranNumb);
 	if (ranNumb === 99) {
-		message.reply('Silence, wench.')
+		message.reply('silence, wench.')
 	}
 })
 
+//Bot sends .gif or emoji when prompted by messages.
+client.on('message', (message) => {
+	if (message.author.bot) return;
+	if (message.content === 'yare yare') {
+    message.channel.send(`https://media1.tenor.com/images/162e6417f80df31ff2fcf72680f0424c/tenor.gif?itemid=13569904`)
+	} else if (message.content === 'dnd') {
+		message.channel.send(`https://media1.tenor.com/images/e4641e64908840c937211e4b3e1d1406/tenor.gif?itemid=15179548`)
+	} else if (message.content === 'poggers') {
+		message.channel.send(`<:poggers:816391730323783691>`)
+	}
+})
 
 //Bot logs in with the token from .env
 client.login(process.env.BOT_TOKEN);
