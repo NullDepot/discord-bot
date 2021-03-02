@@ -6,6 +6,6 @@ https://discordjs.guide/
 
 *Project setup*
 
-node -v
-npm init
-npm install discord.js
+node -v  
+npm init  
+npm install discord.js  
