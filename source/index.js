@@ -23,5 +23,16 @@ client.on('message', (message) => {
   }
 })
 
+//Bot replies with a 1/100 chance.
+client.on('message', (message) => {
+	//Random number.
+	var ranNumb = Math.floor(Math.random() * 100);
+	if (message.author.bot) return;
+	console.log(ranNumb);
+	if (ranNumb === 99) {
+		message.reply('Silence, wench.')
+	}
+})
+
 //Bot logs in with the token from .env
 client.login(process.env.BOT_TOKEN);
