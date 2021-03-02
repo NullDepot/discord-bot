@@ -1,43 +1,14 @@
 //Imports .env for safe token use.
 require('dotenv').config();
 
-const fs = require('fs');
 const Discord = require('discord.js');
-
+const client = new Discord.Client();
 //Prefix for commands set.
 const prefix = "!"
-
-const client = new Discord.Client();
-client.commands = new Discord.Collection();
-
-const commandFiles = fs.readdirSync('commands').filter(file => file.endsWith('.js'));
-
-for (const file of commandFiles) {
-	console.log('Loading.. '+file);
-	const command = require(`../commands/${file}`);
-	client.commands.set(command.name, command);
-}
 
 //Console notes once the bot is ready.
 client.once('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
-});
-
-//COMMANDS
-client.on('message', message => {
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
-
-	const args = message.content.slice(prefix.length).trim().split(/ +/);
-	const command = args.shift().toLowerCase();
-
-	if (!client.commands.has(command)) return;
-
-	try {
-		client.commands.get(command).execute(message, args);
-	} catch (error) {
-		console.error(error);
-		message.reply('there was an error trying to execute that command!');
-	}
 });
 
 
@@ -63,6 +34,32 @@ client.on('message', (message) => {
 	}
 })
 
+//COMMANDS
+//Ping-pong and Beep-boop.
+client.on('message', (message) => {
+
+	const args = message.content.slice(prefix.length).trim().split(' ');
+	const command = args.shift().toLowerCase();
+
+	if (command === `ping`) {
+		message.channel.send('Pong.');
+	} else if (command === `beep`) {
+		message.channel.send('Boop.');
+	} else if (command === 'prune') {
+			const amount = parseInt(args[0]) + 1;
+
+			if (isNaN(amount)) {
+				return message.reply('please enter a valid number.');
+
+			} else if (amount <= 1 || amount > 100) {
+					return message.reply('input a number between 1 and 99.');
+			}
+			message.channel.bulkDelete(amount, true).catch(err => {
+				console.error(err);
+				message.channel.send('there was an error trying to prune messages in this channel!');
+			});
+		}
+})
 
 //Bot logs in with the token from .env
 client.login(process.env.BOT_TOKEN);
