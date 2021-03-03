@@ -10,7 +10,7 @@ node -v
 npm init -y
 npm install discord.js
 npm install dotenv
-nom install nodemon
+npm install nodemon
 
 Create .env and put BOT_TOKEN=<Discord_token>
 
