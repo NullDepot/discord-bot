@@ -54,6 +54,7 @@ client.on('message', (message) => {
 
 //Bot replies with a 1/100 chance.
 client.on('message', (message) => {
+	if (message.content.startsWith(prefix)) return;
 	//Random number.
 	var ranNumb = Math.floor(Math.random() * 100);
 	if (message.author.bot) return;
