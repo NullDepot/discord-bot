@@ -8,7 +8,7 @@ module.exports = {
 		.setColor('#03c2fc')
 		.setTitle(`${message.author.tag}`)
 //		.setDescription('Description')
-//		.setFooter('Footer')
+		.setFooter('Footer')
 //		.addField('Field 1', 'Content', true)
 		.addFields(
 			{ name: 'Name:', value: '>>Insert value here<<', inline: false },
