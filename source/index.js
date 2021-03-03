@@ -45,9 +45,9 @@ client.on('message', message => {
 client.on('message', (message) => {
   if (message.author.bot) return;
   // console.log(`${message.author.tag}: ${message.content}`);
-  if (message.content === 'hello') {
+  if (message.content.toLowerCase().includes('hello')) {
     message.reply('hey there!')
-  } else if (message.content === 'goodbye') {
+  } else if (message.content.toLowerCase().includes('bye')) {
     message.reply('bye-bye...')
   }
 })
@@ -66,12 +66,14 @@ client.on('message', (message) => {
 //Bot sends .gif or emoji when prompted by messages.
 client.on('message', (message) => {
 	if (message.author.bot) return;
-	if (message.content === 'yare yare') {
+	if (message.content.toLowerCase().includes('yare')) {
     message.channel.send(`https://media1.tenor.com/images/162e6417f80df31ff2fcf72680f0424c/tenor.gif?itemid=13569904`)
-	} else if (message.content === 'dnd') {
+	} else if (message.content.toLowerCase().includes('dnd')) {
 		message.channel.send(`https://media1.tenor.com/images/e4641e64908840c937211e4b3e1d1406/tenor.gif?itemid=15179548`)
-	} else if (message.content === 'poggers') {
+	} else if (message.content.toLowerCase().includes('poggers')) {
 		message.channel.send(`<:poggers:816391730323783691>`)
+	} else if (message.content.toLowerCase().includes('uwu')) {
+		message.channel.send(`UwU u so warm snuggie wuggies!!1!`)
 	}
 })
 
