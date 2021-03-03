@@ -13,9 +13,9 @@ module.exports = {
 		.addFields(
 			{ name: 'Name:', value: '>>Insert value here<<', inline: false },
 			{ name: 'Age:', value: '>>Insert value here<<', inline: false },
-			{ name: 'Country', value: '>>Insert value here<<', inline: false },
+			{ name: 'Country:', value: '>>Insert value here<<', inline: false },
 		)
-//		.setImage()
+		.setImage()
 		.setThumbnail(`${message.author.displayAvatarURL({ format: "png", dynamic: true })}`);
 
 		return message.channel.send(embed);
