@@ -4,6 +4,10 @@ require('dotenv').config();
 const fs = require('fs');
 const Discord = require('discord.js');
 
+const Keyv = require('keyv');
+const keyv = new Keyv(); // for in-memory storage
+keyv.on('error', err => console.error('Keyv connection error:', err));
+
 //Prefix for commands set.
 const prefix = "+"
 
@@ -33,7 +37,7 @@ client.on('message', message => {
 	if (!client.commands.has(command)) return;
 
 	try {
-		client.commands.get(command).execute(message, args);
+		client.commands.get(command).execute(message, args, keyv);
 	} catch (error) {
 		console.error(error);
 		message.reply('there was an error trying to execute that command!');

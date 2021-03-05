@@ -1,14 +1,14 @@
 const Discord = require('discord.js');
-const Keyv = require('keyv');
+//const Keyv = require('keyv');
 
 
 module.exports = {
 	name: 'character',
 	description: 'Collect character information.',
-	execute(message, args) {
+	execute(message, args, keyv) {
     
-    const keyv = new Keyv(); // for in-memory storage
-    keyv.on('error', err => console.error('Keyv connection error:', err));
+    //const keyv = new Keyv(); // for in-memory storage
+    //keyv.on('error', err => console.error('Keyv connection error:', err));
 
 
     let questions = [
