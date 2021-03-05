@@ -13,7 +13,8 @@ module.exports = {
     let questions = [
       ['Name', 'What is your name?'],
       ['Age', 'How old are you?'],
-      ['Country', 'What country are you from?']
+      ['Country', 'What country are you from?'],
+			['Picture', 'What do you look like?']
     ];
 
     console.table(questions);
@@ -63,9 +64,8 @@ module.exports = {
       })
 
       // display summary
-      message.reply( questions[0][1] + ': ' + rslt[0] );
-      message.reply( questions[1][1] + ': ' + rslt[1] );
-      message.reply( questions[2][1] + ': ' + rslt[2] );
+      message.reply( questions[0][0] + ': ' + rslt[0] + ' | ' + questions[1][0] + ': ' + rslt[1] + ' | ' + questions[2][0] + ': ' + rslt[2] + ' | ' + questions[3][0] + ': Image stored!');
+			message.reply('Type +embed to view your profile.');
 
 
       // save into memory
@@ -79,6 +79,16 @@ module.exports = {
 
         await keyv.set( 'country' , rslt[2] );
         console.log ( 'Country : ' + await keyv.get('country') );
+
+				await keyv.set( 'picture' , rslt[3] );
+        console.log ( 'Picture : ' + await keyv.get('picture') );
+
+/*
+BUG -- an error occurs if the user doesn't send a link to picture.
+
+Either respond with an error message and abort or prompt the user to send a working URL.
+*/
+
 
       })();
 

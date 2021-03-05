@@ -44,7 +44,7 @@ client.on('message', message => {
 	}
 });
 
-
+/*
 //Bot responds to hello and goodbye messages.
 client.on('message', (message) => {
   if (message.author.bot) return;
@@ -81,6 +81,7 @@ client.on('message', (message) => {
 		message.channel.send(`UwU u so warm snuggie wuggies!!1!`)
 	}
 })
+*/
 
 //Bot logs in with the token from .env
 client.login(process.env.BOT_TOKEN);
