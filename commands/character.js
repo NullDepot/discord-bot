@@ -5,18 +5,10 @@ const Discord = require('discord.js');
 module.exports = {
 	name: 'character',
 	description: 'Collect character information.',
-<<<<<<< HEAD
-	execute(message, args) {
-
-    const keyv = new Keyv(); // for in-memory storage
-    keyv.on('error', err => console.error('Keyv connection error:', err));
-=======
 	execute(message, args, keyv) {
-    
+
     //const keyv = new Keyv(); // for in-memory storage
     //keyv.on('error', err => console.error('Keyv connection error:', err));
->>>>>>> 0e9f0c114862846b6b522ecd4027ce8c8dc4182f
-
 
     let questions = [
       ['Name', 'What is your name?'],
@@ -85,7 +77,7 @@ module.exports = {
         await keyv.set( 'age' , rslt[1] );
         console.log ( 'Age : ' + await keyv.get('age') );
 
-        await keyv.set( 'country' , rslt[0] );
+        await keyv.set( 'country' , rslt[2] );
         console.log ( 'Country : ' + await keyv.get('country') );
 
       })();
