@@ -10,16 +10,16 @@ module.exports = {
 		(async () => {
 
 			name = await keyv.get( 'name' );
-			console.log ( 'Name : ' + await keyv.get('name') );
+			//console.log ( 'Name : ' + await keyv.get('name') );
 
 			age = await keyv.get( 'age' );
-			console.log ( 'Age : ' + await keyv.get('age') );
+			//console.log ( 'Age : ' + await keyv.get('age') );
 
 			country = await keyv.get( 'country' );
-			console.log ( 'Country : ' + await keyv.get('country') );
+			//console.log ( 'Country : ' + await keyv.get('country') );
 
 			picture = await keyv.get( 'picture' );
-			console.log ( 'Picture : ' + await keyv.get('picture') );
+			//console.log ( 'Picture : ' + await keyv.get('picture') );
 
 
 			const embed = new Discord.MessageEmbed()

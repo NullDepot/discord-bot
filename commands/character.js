@@ -1,5 +1,8 @@
 const Discord = require('discord.js');
-//const Keyv = require('keyv');
+
+
+
+
 
 
 module.exports = {
@@ -7,9 +10,10 @@ module.exports = {
 	description: 'Collect character information.',
 	execute(message, args, keyv) {
 
-    //const keyv = new Keyv(); // for in-memory storage
-    //keyv.on('error', err => console.error('Keyv connection error:', err));
+    const filter = m => m.author.id === message.author.id
 
+    
+    // define profile questions
     let questions = [
       ['Name', 'What is your name?'],
       ['Age', 'How old are you?'],
@@ -17,84 +21,129 @@ module.exports = {
 			['Picture', 'What do you look like?']
     ];
 
-    console.table(questions);
-
-    /*
-    const questions = [
-      'What is your name?',
-      'How old are you?',
-      'What country are you from?'
-    ]
-    */
 
 
-    const filter = m => m.author.id === message.author.id
-
+    // setup collector object
     const collector = new Discord.MessageCollector(message.channel, filter, {
       max: questions.length,
       time: 1000 * 30 //30s
     })
 
+
+
+    // cycle through questions to collect user input
     let counter = 0
-    message.channel.send(questions[counter++][0]);
+    message.channel.send(questions[counter++][1]);
 
     collector.on('collect', m => {
-
       if (counter < questions.length) {
-        m.channel.send(questions[counter++][0])
-
+        m.channel.send(questions[counter++][1])
       }
-
     })
 
 
-    collector.on('end', collected => {
-      console.log(`Collected ${collected.size} messages`)
 
+    // runs after input collected
+    collector.on('end', collected => {
+
+      console.log(`Collected ${collected.size} messages`)
 
       if (collected.size < questions.length) {
         message.reply('Response timed out. Please try again.')
         return
       }
 
-      var rslt=[];
-      let counter = 0
-      collected.forEach((value) => {
-        rslt[counter++]=value.content;
-      })
-
-      // display summary
-      message.reply( questions[0][0] + ': ' + rslt[0] + ' | ' + questions[1][0] + ': ' + rslt[1] + ' | ' + questions[2][0] + ': ' + rslt[2] + ' | ' + questions[3][0] + ': Image stored!');
-			message.reply('Type +embed to view your profile.');
-
-
-      // save into memory
-      (async () => {
-
-        await keyv.set( 'name' , rslt[0] );
-        console.log ( 'Name : ' + await keyv.get('name') );
-
-        await keyv.set( 'age' , rslt[1] );
-        console.log ( 'Age : ' + await keyv.get('age') );
-
-        await keyv.set( 'country' , rslt[2] );
-        console.log ( 'Country : ' + await keyv.get('country') );
-
-				await keyv.set( 'picture' , rslt[3] );
-        console.log ( 'Picture : ' + await keyv.get('picture') );
-
-/*
-BUG -- an error occurs if the user doesn't send a link to picture.
-
-Either respond with an error message and abort or prompt the user to send a working URL.
-*/
-
-
-      })();
+      
+      // save users profile data
+      save( collectortoarray(questions, collected), keyv ); //.then( console.log ); 
+ 
+      
+      // final output
+      message.reply('Profile saved. Type +embed to view.');
 
     })
 
-
+    
 
   }
+}
+
+
+
+
+
+/*************
+ * FUNCTIONS *
+ *************/
+
+
+
+// returns true if url is valid
+function isValidHttpUrl(string) {
+	let url;
+	
+	try {
+	  url = new URL(string);
+	} catch (_) {
+	  return false;  
+	}
+  
+	return url.protocol === "http:" || url.protocol === "https:";
+}
+
+
+
+// takes collected data as input and creates a simply array
+function collectortoarray(q,c){
+      
+  var inpt=[];
+  let counter = 0;
+  
+  c.forEach((value) => {
+    inpt[counter]=[q[counter][0],value.content];
+    counter++;
+  });
+
+  console.log(inpt);
+  return inpt;
+}
+
+
+
+// save profile input to memory
+async function save(inpt,keyv) {
+  
+  var msg='Profile data saved. ';
+
+  try {
+         
+    if( inpt[0][1] !='' ) {
+      await keyv.set( 'name' , inpt[0][1] );
+      msg+='Name: ' + await keyv.get('name') + ' | ';
+    }
+
+    if( inpt[1][1] !='' ) {
+      await keyv.set( 'age' , inpt[1][1] );
+      msg+='Age: ' + await keyv.get('age') + ' | ';
+    }
+
+    if( inpt[2][1] !='' ) {
+      await keyv.set( 'country' , inpt[2][1] );
+      msg+='Country: ' + await keyv.get('country') + ' | ';
+    }
+
+
+    if( isValidHttpUrl( inpt[3][1] ) ) {
+      await keyv.set( 'picture' , inpt[3][1] );
+      msg+='Picture: ' + await keyv.get('picture');
+    } else {
+      await keyv.set( 'picture' , '' );
+    }
+
+
+  } catch(err) {
+    console.log ( 'There was a problem saving the profile values. ' + msg ); 
+  }
+
+  return msg;
 }
