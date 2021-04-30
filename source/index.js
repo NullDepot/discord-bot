@@ -104,7 +104,7 @@ client.on('message', (message) => {
 	if (message.author.bot) return;
 	console.log('Random number = '+ ranNumb);
 	if (ranNumb === 0) {
-		message.reply('silence, wench.')
+		message.reply('silence, wench!')
 	}
 })
 
@@ -124,6 +124,37 @@ client.on('message', (message) => {
 	}
 })
 
+client.on('message', async message => {
+	// Voice only works in guilds, if the message does not come from a guild,
+	// we ignore it
+	if (!message.content.startsWith(prefix) || message.author.bot || !message.guild) return;
+  
+	if (message.content === prefix + 'monologue') {
+	  // Only try to join the sender's voice channel if they are in one themselves
+	  if (message.member.voice.channel) {
+		const connection = await message.member.voice.channel.join();
+
+		const ytdl = require('ytdl-core');
+		connection.play(ytdl('https://www.youtube.com/watch?v=Aqxk9Itf3ME', { filter: 'audioonly' }));
+  		console.log('Playing audio.');
+		} else {
+			message.reply(`Error: You're not in a VC`);
+	  }
+	}
+
+	if (message.content === prefix + 'intro') {
+		// Only try to join the sender's voice channel if they are in one themselves
+		if (message.member.voice.channel) {
+		  const connection = await message.member.voice.channel.join();
+  
+		  const ytdl = require('ytdl-core');
+		  connection.play(ytdl('https://www.youtube.com/watch?v=7QY8-uJgIyQ', { filter: 'audioonly' }));
+			console.log('Playing audio.');
+		  } else {
+			  message.reply(`Error: You're not in a VC`);
+		}
+	  }
+  });
   
 //Bot logs in with the token from .env
 client.login(process.env.BOT_TOKEN);
