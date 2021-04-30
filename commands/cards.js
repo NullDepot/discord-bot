@@ -1,43 +1,40 @@
 const Discord = require('discord.js');
 
-
-
-
-
-
 module.exports = {
-	name: 'character',
-	description: 'Collect character information.',
+	name: 'cards',
+	description: 'Collect cards drawn.',
 	execute(message, args, keyv) {
 
     const filter = m => m.author.id === message.author.id
 
     
-    // define profile questions
-    let questions = [
-      ['Name', 'What is your name?'],
-      ['Age', 'How old are you?'],
-      ['Country', 'What country are you from?'],
-			['Picture', 'What do you look like?']
+    // define profile cards
+    let cards = [
+      ['card1', 'What is your first card?'],
+      ['card2', 'What is your second card?'],
+      ['card3', 'What is your third card?'],
+			['card4', 'What is your fourth card?'],
+      ['card5', 'What is your fifth card?']
     ];
+
 
 
 
     // setup collector object
     const collector = new Discord.MessageCollector(message.channel, filter, {
-      max: questions.length,
-      time: 1000 * 30 //30s
+      max: cards.length,
+      // time: 1000 * 30 //30s
     })
 
 
 
-    // cycle through questions to collect user input
+    // cycle through cards to collect user input
     let counter = 0
-    message.channel.send(questions[counter++][1]);
+    message.channel.send(cards[counter++][1]);
 
     collector.on('collect', m => {
-      if (counter < questions.length) {
-        m.channel.send(questions[counter++][1])
+      if (counter < cards.length) {
+        m.channel.send(cards[counter++][1])
       }
     })
 
@@ -48,18 +45,18 @@ module.exports = {
 
       console.log(`Collected ${collected.size} messages`)
 
-      if (collected.size < questions.length) {
+      if (collected.size < cards.length) {
         message.reply('Response timed out. Please try again.')
         return
       }
 
       
       // save users profile data
-      save( collectortoarray(questions, collected), keyv ); //.then( console.log ); 
+      save( collectortoarray(cards, collected), keyv ); //.then( console.log ); 
  
       
       // final output
-      message.reply('Profile saved. Type +embed to view.');
+      message.reply('Profile saved. Type +showcards to view.');
 
     })
 
@@ -118,26 +115,28 @@ async function save(inpt,keyv) {
   try {
          
     if( inpt[0][1] !='' ) {
-      await keyv.set( 'name' , inpt[0][1] );
-      msg+='Name: ' + await keyv.get('name') + ' | ';
+      await keyv.set( 'card1' , inpt[0][1] );
+      msg+='Card 1: ' + await keyv.get('card1') + ' | ';
     }
 
     if( inpt[1][1] !='' ) {
-      await keyv.set( 'age' , inpt[1][1] );
-      msg+='Age: ' + await keyv.get('age') + ' | ';
+      await keyv.set( 'card2' , inpt[1][1] );
+      msg+='Card 2: ' + await keyv.get('card2') + ' | ';
     }
 
     if( inpt[2][1] !='' ) {
-      await keyv.set( 'country' , inpt[2][1] );
-      msg+='Country: ' + await keyv.get('country') + ' | ';
+      await keyv.set( 'card3' , inpt[2][1] );
+      msg+='Card 3: ' + await keyv.get('card3') + ' | ';
     }
 
+    if( inpt[3][1] !='' ) {
+      await keyv.set( 'card4' , inpt[3][1] );
+      msg+='Card 4: ' + await keyv.get('card4');
+    }
 
-    if( isValidHttpUrl( inpt[3][1] ) ) {
-      await keyv.set( 'picture' , inpt[3][1] );
-      msg+='Picture: ' + await keyv.get('picture');
-    } else {
-      await keyv.set( 'picture' , '' );
+    if( inpt[4][1] !='' ) {
+      await keyv.set( 'card5' , inpt[4][1] );
+      msg+='Card 5: ' + await keyv.get('card5');
     }
 
 
