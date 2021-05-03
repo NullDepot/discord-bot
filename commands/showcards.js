@@ -43,7 +43,7 @@ module.exports = {
 				.setImage('http://media.wizards.com/2016/images/dnd/Tarokka_cardspread.png')
 				.setThumbnail('https://db4sgowjqfwig.cloudfront.net/campaigns/231596/banners/1013074/strahd_banner.png?1570915066');
 			return message.channel.send(embed);
-
+			message.delete();
 		})();
 
   }

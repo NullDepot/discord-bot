@@ -97,11 +97,9 @@ client.on('message', (message) => {
 
 //Bot replies with a 1/250 chance.
 client.on('message', (message) => {
-	if (message.author.bot) return;
-	if (message.content.startsWith(prefix)) return;
+	if (message.author.bot || message.content.startsWith(prefix)) return;
 	//Random number.
 	var ranNumb = Math.floor(Math.random() * 250);
-	if (message.author.bot) return;
 	console.log('Random number = '+ ranNumb);
 	if (ranNumb === 0) {
 		message.reply('silence, wench!')
@@ -154,6 +152,74 @@ client.on('message', async message => {
 			  message.reply(`Error: You're not in a VC`);
 		}
 	  }
+
+	if (message.content === prefix + 'organ') {
+		// Only try to join the sender's voice channel if they are in one themselves
+		let song = Math.floor(Math.random() * 6);
+		
+		if (song == 0) {
+			if (message.member.voice.channel) {
+				const connection = await message.member.voice.channel.join();
+		  
+				const ytdl = require('ytdl-core');
+				connection.play(ytdl('https://www.youtube.com/watch?v=Il7aJ2zPMDw', { filter: 'audioonly' }));
+				console.log('Playing song ' + song +'.');
+				} else {
+					message.reply(`Error: You're not in a VC`);
+				}
+		} else if (song == 1) {
+			if (message.member.voice.channel) {
+				const connection = await message.member.voice.channel.join();
+		  
+				const ytdl = require('ytdl-core');
+				connection.play(ytdl('https://www.youtube.com/watch?v=zJUWIByiJk8', { filter: 'audioonly' }));
+				console.log('Playing song ' + song +'.');
+				} else {
+					message.reply(`Error: You're not in a VC`);
+				}
+		} else if (song == 2) {
+			if (message.member.voice.channel) {
+				const connection = await message.member.voice.channel.join();
+		  
+				const ytdl = require('ytdl-core');
+				connection.play(ytdl('https://www.youtube.com/watch?v=P0EMlkVxtV8', { filter: 'audioonly' }));
+				console.log('Playing song ' + song +'.');
+				} else {
+					message.reply(`Error: You're not in a VC`);
+				}
+		} else if (song == 3) {
+			if (message.member.voice.channel) {
+				const connection = await message.member.voice.channel.join();
+		  
+				const ytdl = require('ytdl-core');
+				connection.play(ytdl('https://www.youtube.com/watch?v=7Jt0iW8JisA&list=PLDS-9443D4xr0SFGMyrZ7zr0PkbgiSgAa', { filter: 'audioonly' }));
+				console.log('Playing song ' + song +'.');
+				} else {
+					message.reply(`Error: You're not in a VC`);
+				}
+		} else if (song == 4) {
+			if (message.member.voice.channel) {
+				const connection = await message.member.voice.channel.join();
+		  
+				const ytdl = require('ytdl-core');
+				connection.play(ytdl('https://www.youtube.com/watch?v=iBhFKWYsLsY&list=PLDS-9443D4xr0SFGMyrZ7zr0PkbgiSgAa&index=2', { filter: 'audioonly' }));
+				console.log('Playing song ' + song +'.');
+				} else {
+					message.reply(`Error: You're not in a VC`);
+				}
+		}  else if (song == 5) {
+			if (message.member.voice.channel) {
+				const connection = await message.member.voice.channel.join();
+		  
+				const ytdl = require('ytdl-core');
+				connection.play(ytdl('https://www.youtube.com/watch?v=rQym6uQcUmA&list=PLDS-9443D4xr0SFGMyrZ7zr0PkbgiSgAa&index=3', { filter: 'audioonly' }));
+				console.log('Playing song ' + song +'.');
+				} else {
+					message.reply(`Error: You're not in a VC`);
+				}
+		}
+	}	  
+	
   });
   
 //Bot logs in with the token from .env
