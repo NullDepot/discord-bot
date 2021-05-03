@@ -155,7 +155,7 @@ client.on('message', async message => {
 
 	if (message.content === prefix + 'organ') {
 		// Only try to join the sender's voice channel if they are in one themselves
-		let song = Math.floor(Math.random() * 6);
+		let song = Math.floor(Math.random() * 5);
 		
 		if (song == 0) {
 			if (message.member.voice.channel) {
