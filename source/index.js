@@ -32,7 +32,7 @@ for (const file of commandFiles) {
 //Console notes once the bot is ready.
 client.once('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
-
+	client.user.setActivity('Curse of Strahd', { type: "PLAYING" }).catch(console.error)
 	// roleClaim(client)
 });
 client.once('reconnecting', () => {
@@ -89,9 +89,9 @@ client.on('message', (message) => {
   if (message.author.bot) return;
   // console.log(`${message.author.tag}: ${message.content}`);
   if (message.content.toLowerCase().includes('hello')) {
-    message.reply('Greetings to you, outsider.')
+    message.reply('greetings to you, outsider.')
   } else if (message.content.toLowerCase().includes('bye')) {
-    message.reply('Farewell, foreigner... Beware your fate.')
+    message.reply('farewell, foreigner... Beware your fate.')
   }
 })
 
