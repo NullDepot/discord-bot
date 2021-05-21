@@ -23,7 +23,7 @@ module.exports = {
     // setup collector object
     const collector = new Discord.MessageCollector(message.channel, filter, {
       max: cards.length,
-      // time: 1000 * 30 //30s
+      time: 1000 * 60 //60s
     })
 
 

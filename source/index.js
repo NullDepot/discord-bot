@@ -89,17 +89,17 @@ client.on('message', (message) => {
   if (message.author.bot) return;
   // console.log(`${message.author.tag}: ${message.content}`);
   if (message.content.toLowerCase().includes('hello')) {
-    message.reply('hey there!')
+    message.reply('Greetings to you, outsider.')
   } else if (message.content.toLowerCase().includes('bye')) {
-    message.reply('bye-bye...')
+    message.reply('Farewell, foreigner... Beware your fate.')
   }
 })
 
-//Bot replies with a 1/250 chance.
+//Bot replies with a 1/300 chance.
 client.on('message', (message) => {
 	if (message.author.bot || message.content.startsWith(prefix)) return;
 	//Random number.
-	var ranNumb = Math.floor(Math.random() * 250);
+	var ranNumb = Math.floor(Math.random() * 300);
 	console.log('Random number = '+ ranNumb);
 	if (ranNumb === 0) {
 		message.reply('silence, wench!')
@@ -116,7 +116,7 @@ client.on('message', (message) => {
 	} else*/ if (message.content.toLowerCase().includes('poggers')) {
 		message.react('<:poggers:816391730323783691>')
 	} else if (message.content.toLowerCase().includes('uwu')) {
-		message.channel.send(`UwU u so warm snuggie wuggies!!1!`)
+		message.channel.send(`UwU u so warm snuggie wuggies!!1!-- ahem.`)
 	} else if (message.content.toLowerCase().includes('irp')) {
 		message.react('<:irp:834156842551607327>')
 	}
@@ -133,7 +133,7 @@ client.on('message', async message => {
 		const connection = await message.member.voice.channel.join();
 
 		const ytdl = require('ytdl-core');
-		connection.play(ytdl('https://www.youtube.com/watch?v=Aqxk9Itf3ME', { filter: 'audioonly' }));
+		connection.play(ytdl('https://www.youtube.com/watch?v=0JETysxM7Rs', { filter: 'audioonly' }));
   		console.log('Playing audio.');
 		} else {
 			message.reply(`Error: You're not in a VC`);
