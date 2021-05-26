@@ -2,13 +2,9 @@ const Discord = require('discord.js');
 const cards = require('./cards');
 
 module.exports = {
-    commands: ['showcards'],
-    expectedArgs: '',
-    permissionError: 'You need admin permissions to run this command.',
-    minArgs: 0,
-    maxArgs: 0,
-	description: `Displays drawn cards.`,
-    callback: (message, args, keyv) => {
+	name: 'showcards',
+	description: 'Display drawn cards.',
+	execute(message, args, keyv) {
 
 		var card1, card2, card3, card4, card5;
 
@@ -50,7 +46,5 @@ module.exports = {
 			message.delete();
 		})();
 
-    },
-    permissions: [],
-    requiredRoles: [],
+  }
 }

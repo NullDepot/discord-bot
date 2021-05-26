@@ -1,65 +1,68 @@
-//Imports .env for safe token use.
 require('dotenv').config();
 
+const prefix = '+'
+
+const path = require('path')
 const fs = require('fs');
 const Discord = require('discord.js');
-
-const roleClaim = require('./role-claim')
+const client = new Discord.Client();
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
 const Keyv = require('keyv');
-const keyv = new Keyv(); // for in-memory storage
+const { dirname } = require('path');
+const message = require('./events/message');
+const keyv = new Keyv();
 keyv.on('error', err => console.error('Keyv connection error:', err));
 
 
+//client.commands = new Discord.Collection();
 
-
-//Prefix for commands set.
-const prefix = "+"
-
-const client = new Discord.Client();
-client.commands = new Discord.Collection();
-
-const commandFiles = fs.readdirSync('commands').filter(file => file.endsWith('.js'));
+//const commandFiles = fs.readdirSync('commands').filter(file => file.endsWith('.js'));
 
 console.log('Bot initialising. Please wait...')
 
-for (const file of commandFiles) {
+/*for (const file of commandFiles) {
 	console.log('Loading.. '+file);
 	const command = require(`../commands/${file}`);
 	client.commands.set(command.name, command);
 }
+*/
 
-//Console notes once the bot is ready.
-client.once('ready', () => {
-	console.log(`Logged in as ${client.user.tag}!`);
+client.on('ready', () => {
+	console.log('\x1b[33m%s\x1b[0m', `Logged in as ${client.user.tag}!`);
 	client.user.setActivity('Curse of Strahd', { type: "PLAYING" }).catch(console.error)
-	// roleClaim(client)
-});
-client.once('reconnecting', () => {
-	console.log('Reconnecting...');
-   });
-client.once('disconnect', () => {
-	console.log('Disconnected.');
-   });
 
-//COMMANDS
-client.on('message', message => {
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
+	const baseFile = 'command-base.js'
+	const commandBase = require(`./commands/${baseFile}`)
 
-	const args = message.content.slice(prefix.length).trim().split(/ +/);
-	const command = args.shift().toLowerCase();
-
-	if (!client.commands.has(command)) return;
-
-	try {
-		client.commands.get(command).execute(message, args, keyv);
-	} catch (error) {
-		console.error(error);
-		message.reply('there was an error trying to execute that command!');
+	const readCommands = dir => {
+		const files = fs.readdirSync(path.join(__dirname, dir))
+		for (const file of files) {
+			const stat = fs.lstatSync(path.join(__dirname, dir, file))
+			if (stat.isDirectory()) {
+				readCommands(path.join(dir, file))
+			} else if (file !== baseFile) {
+				const option = require(path.join(__dirname, dir, file))
+				commandBase(client, option)
+			}
+		}
 	}
-});
 
-/* Bot welcomes new members.
+	readCommands('commands')
+
+	for (const file of eventFiles) {
+		const event = require(`./events/${file}`);
+		console.log('Loading event '+file +'..');
+		if (event.once) {
+			client.once(event.name, (...args) => event.execute(...args));
+		} else {
+			client.on(event.name, (...args) => event.execute(...args));
+		}
+	}
+})
+
+/*
+Bot welcomes new members.
 client.on('guildMemberAdd', member => {
 	const channel = message.guild.channels.cache.find(c => c.id === '837471968345063435')
     const channelwelcomeEmbed = new Discord.MessageEmbed()
@@ -77,48 +80,16 @@ client.on('guildMemberAdd', member => {
     let role6 = message.guild.roles.cache.find(role => role.name == 'Curse of Strahd'); //BASIC ROLE, EVERYONE GETS IT
     if(!role6) return message.reply("Couldn't find that Role .")
     member.roles.add(role6);
-}); */
+});
+*/
 
-//	client.channels.cache.get(837471968345063435).send('**Welcome to Barovia, ' + member.user.username + '. Your new home...**')
-//	});
-//	channel.send(`Welcome to Barovia my new friends, your new home, ${member}`);
-//  });
-
-//Bot responds to hello and goodbye messages.
-client.on('message', (message) => {
-  if (message.author.bot) return;
-  // console.log(`${message.author.tag}: ${message.content}`);
-  if (message.content.toLowerCase().includes('hello')) {
-    message.reply('greetings to you, outsider.')
-  } else if (message.content.toLowerCase().includes('bye')) {
-    message.reply('farewell, foreigner... Beware your fate.')
-  }
-})
-
-//Bot replies with a 1/300 chance.
-client.on('message', (message) => {
+client.on('message', message => {
 	if (message.author.bot || message.content.startsWith(prefix)) return;
 	//Random number.
 	var ranNumb = Math.floor(Math.random() * 300);
-	console.log('Random number = '+ ranNumb);
+	console.log('\x1b[33m%s\x1b[0m', 'Random number = '+ ranNumb);
 	if (ranNumb === 0) {
 		message.reply('silence, wench!')
-	}
-})
-
-//Bot sends .gif or emoji when prompted by messages.
-client.on('message', (message) => {
-	if (message.author.bot) return;
-/*	if (message.content.toLowerCase().includes('yare')) {
-    message.channel.send(`https://media1.tenor.com/images/162e6417f80df31ff2fcf72680f0424c/tenor.gif?itemid=13569904`)
-	} else if (message.content.toLowerCase().includes('dnd')) {
-		message.channel.send(`https://media1.tenor.com/images/e4641e64908840c937211e4b3e1d1406/tenor.gif?itemid=15179548`)
-	} else*/ if (message.content.toLowerCase().includes('poggers')) {
-		message.react('<:poggers:816391730323783691>')
-	} else if (message.content.toLowerCase().includes('uwu')) {
-		message.channel.send(`UwU u so warm snuggie wuggies!!1!-- ahem.`)
-	} else if (message.content.toLowerCase().includes('irp')) {
-		message.react('<:irp:834156842551607327>')
 	}
 })
 
@@ -136,7 +107,7 @@ client.on('message', async message => {
 		connection.play(ytdl('https://www.youtube.com/watch?v=0JETysxM7Rs', { filter: 'audioonly' }));
   		console.log('Playing audio.');
 		} else {
-			message.reply(`Error: You're not in a VC`);
+			message.reply(`you must be in a VC!`);
 	  }
 	}
 
@@ -149,7 +120,7 @@ client.on('message', async message => {
 		  connection.play(ytdl('https://www.youtube.com/watch?v=7QY8-uJgIyQ', { filter: 'audioonly' }));
 			console.log('Playing audio.');
 		  } else {
-			  message.reply(`Error: You're not in a VC`);
+			  message.reply(`you must be in a VC!`);
 		}
 	  }
 
@@ -165,7 +136,7 @@ client.on('message', async message => {
 				connection.play(ytdl('https://www.youtube.com/watch?v=Il7aJ2zPMDw', { filter: 'audioonly' }));
 				console.log('Playing song ' + song +'.');
 				} else {
-					message.reply(`Error: You're not in a VC`);
+					message.reply(`you must be in a VC!`);
 				}
 		} else if (song == 1) {
 			if (message.member.voice.channel) {
@@ -175,7 +146,7 @@ client.on('message', async message => {
 				connection.play(ytdl('https://www.youtube.com/watch?v=zJUWIByiJk8', { filter: 'audioonly' }));
 				console.log('Playing song ' + song +'.');
 				} else {
-					message.reply(`Error: You're not in a VC`);
+					message.reply(`you must be in a VC!`);
 				}
 		} else if (song == 2) {
 			if (message.member.voice.channel) {
@@ -185,7 +156,7 @@ client.on('message', async message => {
 				connection.play(ytdl('https://www.youtube.com/watch?v=P0EMlkVxtV8', { filter: 'audioonly' }));
 				console.log('Playing song ' + song +'.');
 				} else {
-					message.reply(`Error: You're not in a VC`);
+					message.reply(`you must be in a VC!`);
 				}
 		} else if (song == 3) {
 			if (message.member.voice.channel) {
@@ -195,7 +166,7 @@ client.on('message', async message => {
 				connection.play(ytdl('https://www.youtube.com/watch?v=7Jt0iW8JisA&list=PLDS-9443D4xr0SFGMyrZ7zr0PkbgiSgAa', { filter: 'audioonly' }));
 				console.log('Playing song ' + song +'.');
 				} else {
-					message.reply(`Error: You're not in a VC`);
+					message.reply(`you must be in a VC!`);
 				}
 		} else if (song == 4) {
 			if (message.member.voice.channel) {
@@ -205,7 +176,7 @@ client.on('message', async message => {
 				connection.play(ytdl('https://www.youtube.com/watch?v=iBhFKWYsLsY&list=PLDS-9443D4xr0SFGMyrZ7zr0PkbgiSgAa&index=2', { filter: 'audioonly' }));
 				console.log('Playing song ' + song +'.');
 				} else {
-					message.reply(`Error: You're not in a VC`);
+					message.reply(`you must be in a VC!`);
 				}
 		}  else if (song == 5) {
 			if (message.member.voice.channel) {
@@ -215,12 +186,11 @@ client.on('message', async message => {
 				connection.play(ytdl('https://www.youtube.com/watch?v=rQym6uQcUmA&list=PLDS-9443D4xr0SFGMyrZ7zr0PkbgiSgAa&index=3', { filter: 'audioonly' }));
 				console.log('Playing song ' + song +'.');
 				} else {
-					message.reply(`Error: You're not in a VC`);
+					message.reply(`you must be in a VC!`);
 				}
 		}
 	}	  
 	
-  });
-  
-//Bot logs in with the token from .env
+});
+
 client.login(process.env.BOT_TOKEN);
