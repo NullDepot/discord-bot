@@ -15,13 +15,12 @@ module.exports = {
     const howfucked = new Discord.MessageEmbed()
         .setColor('#8B0F0A')
         .setTitle('How fucked are you?')
-        // .setFooter()
         .setDescription(`@${member.username} is ` + rng + `% fucked.`)
-        .addFields()
         .setImage('https://i.ytimg.com/vi/9ry2m1bi8M8/maxresdefault.jpg')
-        .setThumbnail();
   
-        message.channel.send(howfucked);
+        message.channel.send({embed: howfucked}).then(embedMessage => {
+            embedMessage.react('<:irp:834156842551607327>');
+        });
   },
     permissions: [],
     requiredRoles: [],
