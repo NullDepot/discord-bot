@@ -5,8 +5,6 @@ module.exports = {
         if (message.content.toLowerCase().includes('poggers')) {
             console.log('Detected POGGERS..')
             message.react(message.guild.emojis.cache.get('<:poggers:816391730323783691>'))
-            .then(console.log)
-            .catch(console.error);
         }
     },
 };

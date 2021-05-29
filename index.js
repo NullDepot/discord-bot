@@ -14,6 +14,7 @@ const message = require('./events/message');
 const keyv = new Keyv();
 keyv.on('error', err => console.error('Keyv connection error:', err));
 
+require('events').EventEmitter.defaultMaxListeners = 15;
 
 //client.commands = new Discord.Collection();
 

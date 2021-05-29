@@ -110,7 +110,7 @@ module.exports = (client, commandOptions) => {
                 if (arguments.length < minArgs || (
                     maxArgs !== null && arguments.length > maxArgs
                 )) {
-                    message.reply(`incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
+                    message.reply(`incorrect syntax! Use:` + `\n` + `**${prefix}${alias} ${expectedArgs}**`)
                     return
                 }
 
