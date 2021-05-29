@@ -52,13 +52,12 @@ client.on('ready', () => {
 
 	for (const file of eventFiles) {
 		const event = require(`./events/${file}`);
-		console.log('Loading event '+file +'..');
 		if (event.once) {
 			client.once(event.name, (...args) => event.execute(...args));
 		} else {
 			client.on(event.name, (...args) => event.execute(...args));
 		}
-	}
+	}	
 })
 
 /*
@@ -90,6 +89,18 @@ client.on('message', message => {
 	console.log('\x1b[33m%s\x1b[0m', 'Random number = '+ ranNumb);
 	if (ranNumb === 0) {
 		message.reply('silence, wench!')
+	}
+    if (message.content.toLowerCase().includes('irp')) {
+        console.log('Detected IRP..')
+        message.react('<:irp:834156842551607327>')
+    }
+    if (message.content.toLowerCase().includes('poggers')) {
+        console.log('Detected POGGERS..')
+        message.react('<:poggers:816391730323783691>')
+    }
+	if (message.content.toLowerCase().includes('uwu')) {
+		console.log('Detected UWU..')
+		message.channel.send(`UwU u so warm snuggie wuggies!!1!`)
 	}
 })
 
