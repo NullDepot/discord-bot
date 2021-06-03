@@ -6,6 +6,7 @@ module.exports = {
     permissionError: 'You need admin permissions to run this command.',
     minArgs: 0,
     maxArgs: 0,
+    description: `[BROKEN!] Collects Tarroka cards for CoS campaign.`,
     callback: (message, args, keyv) => {
         
         const filter = m => m.author.id === message.author.id

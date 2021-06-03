@@ -1,0 +1,16 @@
+const Discord = require('discord.js');
+const client = new Discord.Client();
+
+module.exports = {
+    commands: ['monologue'],
+    expectedArgs: '',
+    permissionError: 'You need admin permissions to run this command.',
+    minArgs: 0,
+    maxArgs: 0,
+    description: `Invites Strahd to VC to randomly play organ music.`,
+    callback: (message, arguments, text) => {
+          
+    },
+    permissions: [],
+    requiredRoles: [],
+}

@@ -4,6 +4,7 @@ module.exports = {
     permissionError: 'You need admin permissions to run this command.',
     minArgs: 1,
     maxArgs: 1,
+    description: `Lists Roll20.net campaign links.`,
     callback: (message, arguments, text) => {
         if (message.guild.id !== '643443709190602753') return;
 
