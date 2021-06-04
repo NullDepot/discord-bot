@@ -13,7 +13,7 @@ module.exports = {
     let member = message.mentions.users.first() || message.author
     let rng = Math.floor(Math.random() * 101)
 
-    if (rng <= 90) {
+    if (rng >= 90) {
         const howfucked = new Discord.MessageEmbed()
         .setColor('#8B0F0A')
         .setTitle(`how fucked is @${member.username}?`)

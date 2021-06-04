@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const prefix = '+'
 
 module.exports = {
-    commands: ['help', 'h'],
+    commands: ['help'],
     description: "Lists all of the bot's commands.",
     callback: (message, arguments, text) => {
         let reply = 'The following commands are supported by this bot:\n\n'
