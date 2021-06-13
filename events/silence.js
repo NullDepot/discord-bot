@@ -1,6 +1,6 @@
 module.exports = {
     name: 'silence',
-    execute(message) {
+    execute(client, message) {
         if (message.author.bot || message.content.startsWith(prefix)) return;
         //Random number.
         var ranNumb = Math.floor(Math.random() * 5);

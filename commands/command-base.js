@@ -1,4 +1,4 @@
-const prefix = '+'
+const {prefix} = require('../config.json')
 
 const validatePermissions = (permissions) => {
     const validPermissions = [

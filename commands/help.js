@@ -1,6 +1,6 @@
 const loadCommands = require('./load-commands')
 const Discord = require('discord.js');
-const prefix = '+'
+const {prefix} = require('../config.json')
 
 module.exports = {
     commands: ['help'],

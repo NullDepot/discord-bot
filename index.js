@@ -1,6 +1,7 @@
 require('dotenv').config();
 
-const prefix = '+'
+const {prefix} = require('./config.json')
+let {word_count} = require('./config.json')
 
 // const path = require('path')
 const fs = require('fs');
@@ -71,7 +72,7 @@ client.on('guildMemberAdd', member => {
 client.on('message', message => {
 	if (message.author.bot || message.content.startsWith(prefix)) return;
 	//Random number.
-	var ranNumb = Math.floor(Math.random() * 300);
+	var ranNumb = Math.floor(Math.random() * 400);
 	console.log('\x1b[33m%s\x1b[0m', 'Random number = '+ ranNumb);
 	if (ranNumb === 0) {
 		message.reply('silence, wench!')
@@ -87,6 +88,11 @@ client.on('message', message => {
 	if (message.content.toLowerCase().includes('uwu')) {
 		console.log('Detected UWU..')
 		message.channel.send(`UwU u so warm snuggie wuggies!!1!`)
+	}
+	if (message.content.toLowerCase().includes('wigger')) {
+        word_count++;
+        console.log(`\nCOUNT: ${word_count}\n`)
+        message.reply(`"POP" has been mentioned exactly ${word_count} times since the last reset!`)
 	}
 })
 

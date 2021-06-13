@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'poggers',
-	execute(message) {
+	execute(client) {
         if (message.author.bot) return;
         if (message.content.toLowerCase().includes('poggers')) {
             console.log('Detected POGGERS..')
