@@ -92,7 +92,7 @@ client.on('message', message => {
 	if (message.content.toLowerCase().includes('wigger')) {
         word_count++;
         console.log(`\nCOUNT: ${word_count}\n`)
-        message.reply(`"POP" has been mentioned exactly ${word_count} times since the last reset!`)
+        message.reply(`"wigger" has been mentioned exactly ${word_count} times since the last reset!`)
 	}
 })
 
