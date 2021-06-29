@@ -94,7 +94,7 @@ client.on('message', message => {
         console.log(`\nCOUNT: ${word_count}\n`)
         message.reply(`"wigger" has been mentioned exactly ${word_count} times since the last reset!`)
 	}
-	if (message.content.toLowerCase('wdym') && user.id === '353137359530754069') {
+	if (message.content.toLowerCase('wdym') && message.author.id === '353137359530754069') {
         wdym_count++;
         console.log(`\nWDYM COUNT: ${wdym_count}\n`)
         message.reply(`Great. Laith has said "Wdym" exactly ${wdym_count} times since the last reset...`)
