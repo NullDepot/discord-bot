@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'irp',
-	execute(client) {
+	execute() {
         if (message.author.bot) return;
         if (message.content.toLowerCase().includes('irp')) {
             console.log('Detected IRP..')

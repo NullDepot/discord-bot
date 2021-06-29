@@ -1,8 +1,7 @@
 require('dotenv').config();
 
 const {prefix} = require('./config.json')
-let {word_count} = require('./config.json')
-let {wdym_count} = require('./config.json')
+let {wigger_count} = require('./config.json')
 
 // const path = require('path')
 const fs = require('fs');
@@ -11,26 +10,13 @@ const client = new Discord.Client();
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 const loadCommands = require('./commands/load-commands')
 
-const Keyv = require('keyv');
 const { dirname } = require('path');
 const message = require('./events/message');
-const keyv = new Keyv();
-keyv.on('error', err => console.error('Keyv connection error:', err));
 
 require('events').EventEmitter.defaultMaxListeners = 16;
 
-//client.commands = new Discord.Collection();
-
-//const commandFiles = fs.readdirSync('commands').filter(file => file.endsWith('.js'));
 
 console.log('Bot initialising. Please wait...')
-
-/*for (const file of commandFiles) {
-	console.log('Loading.. '+file);
-	const command = require(`../commands/${file}`);
-	client.commands.set(command.name, command);
-}
-*/
 
 client.on('ready', () => {
 	console.log('\x1b[33m%s\x1b[0m', `Logged in as ${client.user.tag}!`);
@@ -41,34 +27,12 @@ client.on('ready', () => {
 	for (const file of eventFiles) {
 		const event = require(`./events/${file}`);
 		if (event.once) {
-			client.once(event.name, (...args) => event.execute(...args));
+			client.once(event.name, (...args) => event.execute(...args, client));
 		} else {
-			client.on(event.name, (...args) => event.execute(...args));
+			client.on(event.name, (...args) => event.execute(...args, client));
 		}
 	}	
 })
-
-/*
-Bot welcomes new members.
-client.on('guildMemberAdd', member => {
-	const channel = message.guild.channels.cache.find(c => c.id === '837471968345063435')
-    const channelwelcomeEmbed = new Discord.MessageEmbed()
-        .setColor('#b80f0a')
-        .setTitle('Welcome to Barovia...')
-        .setDescription(`${member}, Your new home.`)
-        .setTimestamp();
-    channel.send(channelwelcomeEmbed);
-    const dmwelcomeEmbed = new Discord.MessageEmbed()
-        .setColor('#ffd6d6')
-        .setTitle('Welcome!')
-        .setDescription("For Help Using @Pro Bot#7903, Send The Command `!help` In Server")
-        .setTimestamp();
-    member.send(dmwelcomeEmbed);
-    let role6 = message.guild.roles.cache.find(role => role.name == 'Curse of Strahd'); //BASIC ROLE, EVERYONE GETS IT
-    if(!role6) return message.reply("Couldn't find that Role .")
-    member.roles.add(role6);
-});
-*/
 
 client.on('message', message => {
 	if (message.author.bot || message.content.startsWith(prefix)) return;
@@ -91,14 +55,9 @@ client.on('message', message => {
 		message.channel.send(`UwU u so warm snuggie wuggies!!1!`)
 	}
 	if (message.content.toLowerCase().includes('wigger')) {
-        word_count++;
-        console.log(`\nCOUNT: ${word_count}\n`)
-        message.reply(`"wigger" has been mentioned exactly ${word_count} times since the last reset!`)
-	}
-	if (message.content.toLowerCase('wdym') && message.author.id === '353137359530754069') {
-        wdym_count++;
-        console.log(`\nWDYM COUNT: ${wdym_count}\n`)
-        message.reply(`Great. Laith has said "Wdym" exactly ${wdym_count} times since the last reset...`)
+        wigger_count++;
+        console.log(`\nCOUNT: ${wigger_count}\n`)
+        message.reply(`"wigger" has been mentioned exactly ${wigger_count} times since the last reset!`)
 	}
 })
 
