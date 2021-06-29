@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const {prefix} = require('./config.json')
 let {word_count} = require('./config.json')
+let {wdym_count} = require('./config.json')
 
 // const path = require('path')
 const fs = require('fs');
