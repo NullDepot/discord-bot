@@ -16,3 +16,7 @@ npm ci keyv
 Create .env and put BOT_TOKEN=<Discord_token>
 
 Run with node ./source/index.js
+
+This page needs to be fixed.
+
+For VC, ytdl-core ffmpeg
