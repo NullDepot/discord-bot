@@ -20,7 +20,7 @@ console.log('Bot initialising. Please wait...')
 
 client.on('ready', () => {
 	console.log('\x1b[33m%s\x1b[0m', `Logged in as ${client.user.tag}!`);
-	client.user.setActivity('Curse of Strahd', { type: "PLAYING" }).catch(console.error)
+	client.user.setActivity('with your feelings', { type: "PLAYING" }).catch(console.error)
 
 	loadCommands(client)
 
@@ -61,6 +61,7 @@ client.on('message', message => {
 	}
 })
 
+/*
 client.on('message', async message => {
 	// Voice only works in guilds, if the message does not come from a guild,
 	// we ignore it
@@ -160,5 +161,6 @@ client.on('message', async message => {
 	}	  
 	
 });
+*/
 
 client.login(process.env.BOT_TOKEN);
