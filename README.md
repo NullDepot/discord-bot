@@ -1,5 +1,9 @@
 # discord-bot
 
+This is a little project I made to bring some fun onto my Discord server with my friends. It would react to various commands and respond to certain keywords.
+
+The project is no longer in use.
+
 https://discordjs.guide/
 
 
